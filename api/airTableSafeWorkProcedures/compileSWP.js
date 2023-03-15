@@ -40,14 +40,14 @@ export default async function handler(req, res) {
   // Write the docx buffer to the tmp folder
   const filepath = path.join('/tmp', filename);
   fs.writeFileSync(filepath, buf)
-  const fileBuffer = fs.readFileSync(filepath)
-
+  //const fileBuffer = fs.readFileSync(filepath)
+  const pdfStream = await docx2pdf(filepath)
 
   // Create a new FormData object
   const formData = new FormData()
 
   // Append the buffer as a file with a custom filename
-  formData.append('file', fileBuffer, `SWP - ${req.body.name}.docx`)
+  formData.append('file', pdfStream, `SWP - ${req.body.name}.pdf`)
   
 
   // Add the form data fields
