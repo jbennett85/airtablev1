@@ -1,18 +1,18 @@
 
-const axios = require('axios/dist/node/axios.cjs')
-//import axios from 'axios'
+//const axios = require('axios/dist/node/axios.cjs')
+import axios from 'axios'
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import FormData from 'form-data'
+import docx2pdf from 'docx2pdf'
+import fs from 'fs'
+import path from 'path'
 
 export default async function handler(req, res) {
   
   const swpTemplateURL = req.body.swpTemplateUrl
 
-  //res.json(swpTemplateURL)
   const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
-  //res.send (response.data)
-
 
   const buffer = Buffer.from(response.data);
   const zip = new PizZip(buffer)
@@ -35,6 +35,11 @@ export default async function handler(req, res) {
     // For a 50MB output document, expect 500ms additional CPU time
     compression: "DEFLATE",
   });
+
+  const filename = `test.docx`
+  // Write the docx buffer to the tmp folder
+  const filepath = path.join('/tmp', filename);
+  fs.writeFileSync(filepath, buf)
 
   // Create a new FormData object
   const formData = new FormData()
