@@ -1,5 +1,6 @@
 //import axios from 'axios'
-const axios = require('axios/dist/node/axios.cjs')
+//const axios = require('axios/dist/node/axios.cjs')
+import axios from 'axios'
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import FormData from 'form-data'
@@ -10,7 +11,8 @@ export default async function handler(req, res) {
   const swpTemplateURL = req.body.swpTemplateUrl
   //console.log(swpTemplateURL)
 
-  const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
+  const response = await axios.get('https://catfact.ninja/fact')
+  //const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
   res.send (response.data)
   // const buffer = Buffer.from(response.data);
   // const zip = new PizZip(buffer)
