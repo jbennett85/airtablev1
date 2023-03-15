@@ -9,10 +9,10 @@ export default async function handler(req, res) {
   
   //res.send({response:'Success'})
   const swpTemplateURL = req.body.swpTemplateUrl
-  console.log(req.body)
+  //console.log(req.body)
   //console.log(swpTemplateURL)
 
-  res.send(swpTemplateURL)
+  res.send(JSON.stringify(swpTemplateURL))
   // const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
   // res.send (response.data)
 
