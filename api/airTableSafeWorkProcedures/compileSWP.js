@@ -5,7 +5,7 @@ import FormData from 'form-data'
 
 export default async function handler(req, res) {
   
-  res.send({response:'Success'})
+  //res.send({response:'Success'})
   const swpTemplateURL = req.body.swpTemplateUrl
   //console.log(swpTemplateURL)
 
