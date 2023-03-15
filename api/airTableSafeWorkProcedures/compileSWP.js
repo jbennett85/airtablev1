@@ -11,9 +11,11 @@ export default async function handler(req, res) {
   const swpTemplateURL = req.body.swpTemplateUrl
   //console.log(swpTemplateURL)
 
-  const response = await axios.get('https://catfact.ninja/fact')
-  //const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
-  res.send (response.data)
+  res.send({url: swpTemplateURL})
+  // const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
+  // res.send (response.data)
+
+
   // const buffer = Buffer.from(response.data);
   // const zip = new PizZip(buffer)
   // const doc = new Docxtemplater(zip, {
