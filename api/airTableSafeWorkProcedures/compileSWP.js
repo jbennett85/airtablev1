@@ -1,4 +1,4 @@
-import axios from 'axios'
+const axios = require('axios/dist/node/axios.cjs')
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import FormData from 'form-data'
