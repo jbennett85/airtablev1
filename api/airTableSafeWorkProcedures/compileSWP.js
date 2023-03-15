@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   //console.log(req.body)
   //console.log(swpTemplateURL)
 
-  res.send({response:JSON.stringify(swpTemplateURL)})
+  res.json(req.body)
   // const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
   // res.send (response.data)
 
