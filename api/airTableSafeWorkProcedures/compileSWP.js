@@ -1,3 +1,4 @@
+//import axios from 'axios'
 const axios = require('axios/dist/node/axios.cjs')
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
   //console.log(swpTemplateURL)
 
   const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
-  res.send ({response:response})
+  res.send (response.data)
   // const buffer = Buffer.from(response.data);
   // const zip = new PizZip(buffer)
   // const doc = new Docxtemplater(zip, {
