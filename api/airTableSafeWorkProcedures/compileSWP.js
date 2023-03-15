@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const swpTemplateURL = req.body.swpTemplateUrl
   //console.log(swpTemplateURL)
 
-  res.send({url: swpTemplateURL})
+  res.send({url: req.body})
   // const response = await axios.get(swpTemplateURL, { responseType: 'arraybuffer' })
   // res.send (response.data)
 
