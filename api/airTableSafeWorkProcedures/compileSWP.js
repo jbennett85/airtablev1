@@ -1,6 +1,6 @@
 
-const axios = require('axios/dist/node/axios.cjs')
-//import axios from 'axios'
+//const axios = require('axios/dist/node/axios.cjs')
+import axios from 'axios'
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import FormData from 'form-data'
@@ -46,19 +46,40 @@ export default async function handler(req, res) {
     
     // Add the form data fields
     //formData.append('expires', '2023-03-15T08:01:16.767Z')
-    formData.append('maxDownloads', '1')
-    formData.append('autoDelete', 'true')
+    //formData.append('maxDownloads', '1')
+    //formData.append('autoDelete', 'true')
 
+
+    // Method: POST
+
+    // Params: file=/path/to/test.jpg
+
+    // URL: https://tmpfiles.org/api/v1/upload
     // Make a POST request to the file.io API endpoint with the FormData as the payload
-    axios.post('https://file.io/', formData, {
+    axios.post('https://tmpfiles.org/api/v1/upload', formData, {
       headers: {
         'accept': 'application/json',
-        'Authorization': 'Bearer PW2UY6R.JJDNG1C-NTGMHNH-NR2XKQB-MB2JXTG',
+        //'Authorization': 'Bearer PW2UY6R.JJDNG1C-NTGMHNH-NR2XKQB-MB2JXTG',
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
-      res.send({link: response.data.link})
+      console.log(response)
+      let url = response.data.data.url
+      url = url.replace(".org/", ".org/dl/")
+      res.send({link: url})
     })
+
+
+    // // Make a POST request to the file.io API endpoint with the FormData as the payload
+    // axios.post('https://file.io/', formData, {
+    //   headers: {
+    //     'accept': 'application/json',
+    //     'Authorization': 'Bearer PW2UY6R.JJDNG1C-NTGMHNH-NR2XKQB-MB2JXTG',
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // }).then(response => {
+    //   res.send({link: response.data.link})
+    // })
   })
   .catch((error) => {
     console.log('error: ', error)
