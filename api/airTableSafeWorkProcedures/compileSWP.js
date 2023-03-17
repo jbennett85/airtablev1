@@ -4,9 +4,8 @@ const axios = require('axios/dist/node/axios.cjs')
 import PizZip from 'pizzip'
 import Docxtemplater from 'docxtemplater'
 import FormData from 'form-data'
-import docx2pdf from 'docx2pdf'
-import fs from 'fs'
-import path from 'path'
+
+import docxToPdfAxios from 'docx-to-pdf-axios'
 
 export default async function handler(req, res) {
   
@@ -36,40 +35,33 @@ export default async function handler(req, res) {
     compression: "DEFLATE",
   });
 
-  const filename = `test.docx`
-  // Write the docx buffer to the tmp folder
-  const filepath = path.join('/tmp', filename);
-  fs.writeFileSync(filepath, buf)
-  //const fileBuffer = fs.readFileSync(filepath)
-  const pdfStream = await docx2pdf(filepath)
+  docxToPdfAxios(buf)
+  .then((pdfArrayBuffer) => {
+    console.log(pdfArrayBuffer)
+    // Create a new FormData object
+    const formData = new FormData()
 
-  // Create a new FormData object
-  const formData = new FormData()
+    // Append the buffer as a file with a custom filename
+    formData.append('file', pdfArrayBuffer, `SWP - ${req.body.name}.pdf`)
+    
+    // Add the form data fields
+    //formData.append('expires', '2023-03-15T08:01:16.767Z')
+    formData.append('maxDownloads', '1')
+    formData.append('autoDelete', 'true')
 
-  // Append the buffer as a file with a custom filename
-  formData.append('file', pdfStream, `SWP - ${req.body.name}.pdf`)
-  
-
-  // Add the form data fields
-  //formData.append('expires', '2023-03-15T08:01:16.767Z')
-  formData.append('maxDownloads', '1')
-  formData.append('autoDelete', 'true')
-
-  // Make a POST request to the file.io API endpoint with the FormData as the payload
-  await axios.post('https://file.io/', formData, {
-    headers: {
-      'accept': 'application/json',
-      'Authorization': 'Bearer PW2UY6R.JJDNG1C-NTGMHNH-NR2XKQB-MB2JXTG',
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then(response => {
-    console.log(response)
-
-    // Set response headers to specify the content type and attachment
-    //res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    //res.setHeader('Content-Disposition', 'attachment; filename="example.docx"')
-  
-    // Send the buffer as the response
-    res.send({link: response.data.link})
+    // Make a POST request to the file.io API endpoint with the FormData as the payload
+    axios.post('https://file.io/', formData, {
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer PW2UY6R.JJDNG1C-NTGMHNH-NR2XKQB-MB2JXTG',
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      res.send({link: response.data.link})
+    })
   })
+  .catch((error) => {
+    console.log('error: ', error)
+  });
+
 }
